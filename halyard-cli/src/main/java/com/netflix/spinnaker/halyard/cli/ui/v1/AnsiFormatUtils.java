@@ -93,6 +93,7 @@ public class AnsiFormatUtils {
       case JSON:
         return formatJson(o);
       case STRING:
+        System.out.println(o.toString());
         return o.toString();
       case NONE:
         return "";
