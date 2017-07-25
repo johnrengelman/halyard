@@ -46,7 +46,7 @@ public class EditLocationCommand extends AbstractConfigCommand {
                 .setOperation(Daemon.setLocation(currentDeployment, !noValidate, location))
                 .setFormat(AnsiFormatUtils.Format.STRING)
                 .setSuccessMessage("Spinnaker has been configured to update/install into \"" + location + "\". "
-                        + "Deploy Spinnaker to this location with `hal deploy apply`.")
+                        + "Deploy Spinnaker to this location with `hal deploy apply`." + ">>" + location)
                 .setFailureMesssage("Failed to update location.")
                 .get();
     }
