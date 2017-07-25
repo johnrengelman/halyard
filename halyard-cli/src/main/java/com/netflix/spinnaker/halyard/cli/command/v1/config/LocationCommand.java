@@ -42,8 +42,6 @@ public class LocationCommand extends AbstractConfigCommand {
         new OperationHandler<String>()
                 .setOperation(Daemon.getLocation(currentDeployment, !noValidate))
                 .setFailureMesssage("Failed to load location for Spinnaker deployment.")
-                .setFormat(AnsiFormatUtils.Format.STRING)
-                .setUserFormatted(true)
                 .get();
     }
 
