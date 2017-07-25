@@ -20,6 +20,7 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 import com.netflix.spinnaker.halyard.cli.services.v1.Daemon;
 import com.netflix.spinnaker.halyard.cli.services.v1.OperationHandler;
+import com.netflix.spinnaker.halyard.cli.ui.v1.AnsiFormatUtils;
 import lombok.AccessLevel;
 import lombok.Getter;
 
@@ -43,6 +44,7 @@ public class EditLocationCommand extends AbstractConfigCommand {
         String currentDeployment = getCurrentDeployment();
         new OperationHandler<Void>()
                 .setOperation(Daemon.setLocation(currentDeployment, !noValidate, location))
+                .setFormat(AnsiFormatUtils.Format.STRING)
                 .setSuccessMessage("Spinnaker has been configured to update/install into \"" + location + "\". "
                         + "Deploy Spinnaker to this location with `hal deploy apply`.")
                 .setFailureMesssage("Failed to update location.")
