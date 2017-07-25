@@ -25,6 +25,7 @@ import com.netflix.spinnaker.halyard.config.services.v1.DeploymentService;
 import com.netflix.spinnaker.halyard.core.DaemonResponse.StaticRequestBuilder;
 import com.netflix.spinnaker.halyard.core.DaemonResponse.UpdateRequestBuilder;
 import com.netflix.spinnaker.halyard.core.RemoteAction;
+import com.netflix.spinnaker.halyard.core.StringBodyRequest;
 import com.netflix.spinnaker.halyard.core.problem.v1.Problem.Severity;
 import com.netflix.spinnaker.halyard.core.problem.v1.ProblemSet;
 import com.netflix.spinnaker.halyard.core.registry.v1.Versions;
@@ -319,10 +320,10 @@ public class DeploymentController {
   DaemonTask<Halconfig, Void> setLocation(@PathVariable String deploymentName,
                                          @RequestParam(required = false, defaultValue = DefaultControllerValues.validate) boolean validate,
                                          @RequestParam(required = false, defaultValue = DefaultControllerValues.severity) Severity severity,
-                                         @RequestBody String location) {
+                                         @RequestBody StringBodyRequest location) {
     UpdateRequestBuilder builder = new UpdateRequestBuilder();
 
-    builder.setUpdate(() -> deploymentService.setLocation(deploymentName, location));
+    builder.setUpdate(() -> deploymentService.setLocation(deploymentName, location.getValue()));
     builder.setSeverity(severity);
 
     Supplier<ProblemSet> doValidate = ProblemSet::new;

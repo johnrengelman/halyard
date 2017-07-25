@@ -308,7 +308,7 @@ public interface DaemonService {
   DaemonTask<Halconfig, Void> setLocation(
           @Path("deploymentName") String deploymentName,
           @Query("validate") boolean validate,
-          @Body String location);
+          @Body StringBodyRequest location);
 
   @GET("/v1/config/deployments/{deploymentName}/details/{serviceName}/")
   DaemonTask<Halconfig, Object> getServiceDetails(

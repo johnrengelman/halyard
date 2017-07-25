@@ -623,7 +623,7 @@ public class Daemon {
 
   public static Supplier<Void> setLocation(String deploymentName, boolean validate, String location) {
     return () -> {
-      ResponseUnwrapper.get(getService().setLocation(deploymentName, validate, location));
+      ResponseUnwrapper.get(getService().setLocation(deploymentName, validate, new StringBodyRequest(location)));
       return null;
     };
   }
