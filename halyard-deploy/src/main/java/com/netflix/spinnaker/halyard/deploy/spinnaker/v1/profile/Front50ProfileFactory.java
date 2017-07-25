@@ -85,7 +85,7 @@ public class Front50ProfileFactory extends SpringProfileFactory {
     }
 
     Map<String, Object> spinnakerObjectMap = new HashMap<>();
-    spinnakerObjectMap.put("spinnaker", persistentStorageMap);
+    spinnakerObjectMap.put(deploymentConfiguration.getLocation(), persistentStorageMap);
 
     super.setProfile(profile, deploymentConfiguration, endpoints);
     profile.appendContents(yamlToString(spinnakerObjectMap))

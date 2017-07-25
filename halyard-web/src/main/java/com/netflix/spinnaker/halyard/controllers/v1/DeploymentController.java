@@ -299,6 +299,44 @@ public class DeploymentController {
     return DaemonTaskHandler.submitTask(builder::build, "Get Spinnaker version");
   }
 
+  @RequestMapping(value = "/{deploymentName:.+}/location/", method = RequestMethod.GET)
+  DaemonTask<Halconfig, String> getLocation(@PathVariable String deploymentName,
+                                           @RequestParam(required = false, defaultValue = DefaultControllerValues.validate) boolean validate,
+                                           @RequestParam(required = false, defaultValue = DefaultControllerValues.severity) Severity severity) {
+    StaticRequestBuilder<String> builder = new StaticRequestBuilder<>();
+    builder.setSeverity(severity);
+
+    builder.setBuildResponse(() -> deploymentService.getLocation(deploymentName));
+
+    if (validate) {
+      builder.setValidateResponse(() -> deploymentService.validateDeploymentShallow(deploymentName));
+    }
+
+    return DaemonTaskHandler.submitTask(builder::build, "Get Spinnaker deployment location");
+  }
+
+  @RequestMapping(value = "/{deploymentName:.+}/location/", method = RequestMethod.PUT)
+  DaemonTask<Halconfig, Void> setLocation(@PathVariable String deploymentName,
+                                         @RequestParam(required = false, defaultValue = DefaultControllerValues.validate) boolean validate,
+                                         @RequestParam(required = false, defaultValue = DefaultControllerValues.severity) Severity severity,
+                                         @RequestBody String location) {
+    UpdateRequestBuilder builder = new UpdateRequestBuilder();
+
+    builder.setUpdate(() -> deploymentService.setLocation(deploymentName, location));
+    builder.setSeverity(severity);
+
+    Supplier<ProblemSet> doValidate = ProblemSet::new;
+    if (validate) {
+      doValidate = () -> deploymentService.validateDeploymentShallow(deploymentName);
+    }
+
+    builder.setValidate(doValidate);
+    builder.setRevert(() -> halconfigParser.undoChanges());
+    builder.setSave(() -> halconfigParser.saveConfig());
+
+    return DaemonTaskHandler.submitTask(builder::build, "Edit Spinnaker deployment location");
+  }
+
   @RequestMapping(value = "/{deploymentName:.+}/details/{serviceName:.+}/", method = RequestMethod.GET)
   DaemonTask<Halconfig, RunningServiceDetails> getServiceDetails(@PathVariable String deploymentName,
       @PathVariable String serviceName,
