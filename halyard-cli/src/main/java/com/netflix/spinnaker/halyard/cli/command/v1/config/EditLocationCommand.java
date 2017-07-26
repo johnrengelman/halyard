@@ -35,7 +35,7 @@ public class EditLocationCommand extends AbstractConfigCommand {
     @Parameter(
             names = "--location",
             required = true,
-            description = "The namespace to deploy Spinnaker to."
+            description = "The namespace to deploy Spinnaker to within Kubernetes."
     )
     private String location;
 

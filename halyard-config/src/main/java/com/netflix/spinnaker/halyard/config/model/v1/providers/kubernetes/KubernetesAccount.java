@@ -92,7 +92,6 @@ public class KubernetesAccount extends Account implements Cloneable {
     }
   }
 
-  //TODO - this is stupid
   @Override
   public void makeBootstrappingAccount(ArtifactSourcesConfig artifactSourcesConfig) {
     super.makeBootstrappingAccount(artifactSourcesConfig);
